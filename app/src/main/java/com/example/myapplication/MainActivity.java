@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -12,6 +14,7 @@ import com.example.myapplication.models.Movie;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -23,9 +26,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        final RecyclerView fullDisplay = (RecyclerView) findViewById(R.id.fullDisplay);
         AsyncHttpClient client = new AsyncHttpClient();
 
+        movies = new ArrayList<>();
+        final Adapter adapter = new Adapter(movies, this);
+
+        fullDisplay.setAdapter(adapter);
+        fullDisplay.setLayoutManager(new LinearLayoutManager(this));
 
         client.get(APIUrl,  new JsonHttpResponseHandler() {
             @Override
@@ -38,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject JsonObject = json.jsonObject;
                         try{
                             JSONArray response = JsonObject.getJSONArray("results");
-                            movies = Movie.getMovies(response);
+                            movies.addAll(Movie.getMovies(response));
+                            adapter.notifyDataSetChanged();
                             Log.i("RESULTS", "Movies" + movies.size());
                         }
 
@@ -54,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("MAIN_ACTIVITY", "On failure");
                     }
                 }
+
         );
+
+
+
+
     }
 }
