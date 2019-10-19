@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final RecyclerView fullDisplay = (RecyclerView) findViewById(R.id.fullDisplay);
         AsyncHttpClient client = new AsyncHttpClient();
-
         movies = new ArrayList<>();
         final Adapter adapter = new Adapter(movies, this);
 
@@ -39,17 +38,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         // called when response HTTP status is "200 OK"
-//                        Log.d("DEBUG ARRAY", json.jsonArray.toString());
-//                        Log.d("DEBUG OBJECT", json.jsonObject.toString());
-                        Log.d("MAIN_ACTIVITY", "On success");
+//
 
                         JSONObject JsonObject = json.jsonObject;
                         try{
                             JSONArray response = JsonObject.getJSONArray("results");
                             movies.addAll(Movie.getMovies(response));
                             adapter.notifyDataSetChanged();
-                            Log.i("RESULTS", "Movies" + movies.size());
-                        }
+                            }
 
                         catch (Exception e){
                             Log.e("ERROR", "JSon exception");

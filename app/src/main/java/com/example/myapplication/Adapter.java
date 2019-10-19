@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView moviePoster;
+        public ImageView movieBackDrop;
         public TextView movieTitle;
         public TextView movieOverView;
 
@@ -57,11 +59,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             moviePoster = (ImageView) movieView.findViewById(R.id.moviePoster);
             movieTitle = (TextView) movieView.findViewById(R.id.movieTitle);
             movieOverView = (TextView) movieView.findViewById(R.id.movieOverview);
-         }
+
+
+        }
 
         public void bind(Movie movie){
+            String imagePath;
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                imagePath = movie.getBackDrop();
+            }
+
+            else{
+                imagePath = movie.getPosterPath();
+            }
+
             Glide.with(context)
-                    .load(movie.getPosterPath())
+                    .load(imagePath)
+                    .placeholder(R.drawable.placeholder)
                     .into(moviePoster);
             movieTitle.setText(movie.getTitle());
             movieOverView.setText(movie.getOverview());

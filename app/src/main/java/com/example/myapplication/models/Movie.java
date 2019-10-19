@@ -13,6 +13,9 @@ public class Movie {
     String title;
     String posterPath;
     String overview;
+    String backDrop;
+
+
     final static String error = "ERROR";
 
     public Movie(JSONObject movie) {
@@ -20,6 +23,7 @@ public class Movie {
             this.title = movie.getString("title");
             this.posterPath = movie.getString("poster_path");
             this.overview = movie.getString("overview");
+            this.backDrop = movie.getString("backdrop_path");
         }
 
         catch (JSONException e){
@@ -58,5 +62,9 @@ public class Movie {
 
     public String getOverview() {
         return overview;
+    }
+
+    public String getBackDrop() {
+        return String.format("https://image.tmdb.org/t/p/w300/%s", backDrop);
     }
 }
