@@ -1,18 +1,23 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -52,6 +57,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public ImageView movieBackDrop;
         public TextView movieTitle;
         public TextView movieOverView;
+        public RelativeLayout displayMovie;
 
         public ViewHolder(View movieView){
             super(movieView);
@@ -59,11 +65,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             moviePoster = (ImageView) movieView.findViewById(R.id.moviePoster);
             movieTitle = (TextView) movieView.findViewById(R.id.movieTitle);
             movieOverView = (TextView) movieView.findViewById(R.id.movieOverview);
-
+            displayMovie = (RelativeLayout) movieView.findViewById(R.id.displayContainer);
 
         }
 
-        public void bind(Movie movie){
+        public void bind(final Movie movie){
             String imagePath;
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 imagePath = movie.getBackDrop();
@@ -79,6 +85,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     .into(moviePoster);
             movieTitle.setText(movie.getTitle());
             movieOverView.setText(movie.getOverview());
+            displayMovie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("movie", Parcels.wrap(movie));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(context, movieOverView, "overview");
+                    context.startActivity(intent);
+
+                }
+            });
         }
     }
 }
