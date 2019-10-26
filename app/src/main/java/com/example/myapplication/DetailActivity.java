@@ -28,7 +28,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     RatingBar ratingBar;
     YouTubePlayerView youTubePlayerView;
 
-    private static final String youtubeAPI = "AIzaSyBiWLjrACsOymyhUVZELKHmb1enNGED4dg";
+    private String youtubeAPI;
     public static String trailerURL;
 
     @Override
@@ -37,6 +37,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_detail);
         postponeEnterTransition();
 
+        youtubeAPI = getApplicationContext().getResources().getString(R.string.youtubeAPI);
         movieTitle = findViewById(R.id.movieTitle);
         dateReleased = findViewById(R.id.dateReleased);
         movieOverView = findViewById(R.id.movieOverView);
@@ -67,7 +68,7 @@ public class DetailActivity extends YouTubeBaseActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-
+                Log.e("ERROR", "HTTP get request failed.");
             }
         });
 
@@ -89,7 +90,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     }
 
     private void initializeVideo(final String trailerID, final double rating) {
-        youTubePlayerView.initialize("AIzaSyBiWLjrACsOymyhUVZELKHmb1enNGED4dg",
+        youTubePlayerView.initialize(youtubeAPI,
                 new YouTubePlayer.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,
