@@ -12,7 +12,10 @@
         android:layout_width="166dp"
         android:layout_height="184dp"
         android:contentDescription='"@string/Movie Poster"'
+        android:transitionName="image"
         tools:srcCompat="@tools:sample/avatars" />
+
+
 
     <TextView
         android:id="@+id/movieTitle"
@@ -33,6 +36,5 @@
         android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/moviePoster"
         android:textColor="#FFFFFF"
-        android:transitionName="overview"
         tools:text="During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure." />
 </RelativeLayout>

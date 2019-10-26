@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,6 +21,8 @@ import com.example.myapplication.models.Movie;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<Movie> allMovies;
@@ -58,6 +61,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public TextView movieTitle;
         public TextView movieOverView;
         public RelativeLayout displayMovie;
+//        public Button playButton;
 
         public ViewHolder(View movieView){
             super(movieView);
@@ -66,7 +70,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             movieTitle = (TextView) movieView.findViewById(R.id.movieTitle);
             movieOverView = (TextView) movieView.findViewById(R.id.movieOverview);
             displayMovie = (RelativeLayout) movieView.findViewById(R.id.displayContainer);
-
+//            playButton = (Button) movieView.findViewById(R.id.play);
         }
 
         public void bind(final Movie movie){
@@ -82,16 +86,20 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             Glide.with(context)
                     .load(imagePath)
                     .placeholder(R.drawable.placeholder)
+                    .transform(new RoundedCornersTransformation(24, 4))
                     .into(moviePoster);
             movieTitle.setText(movie.getTitle());
             movieOverView.setText(movie.getOverview());
+//            if (movie.getRating() > 5){
+//                playButton.setVisibility(View.VISIBLE);
+//            }
             displayMovie.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra("movie", Parcels.wrap(movie));
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(context, movieOverView, "overview");
+                            makeSceneTransitionAnimation((Activity) context, movieOverView, "image");
                     context.startActivity(intent);
 
                 }

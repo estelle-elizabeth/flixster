@@ -12,6 +12,7 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:contentDescription='"@string/Movie Poster"'
+        android:transitionName="image"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

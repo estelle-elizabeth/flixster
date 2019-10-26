@@ -35,6 +35,8 @@ public class DetailActivity extends YouTubeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        postponeEnterTransition();
+
         movieTitle = findViewById(R.id.movieTitle);
         dateReleased = findViewById(R.id.dateReleased);
         movieOverView = findViewById(R.id.movieOverView);
@@ -52,10 +54,10 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 JSONObject JsonObject = json.jsonObject;
-
+                startPostponedEnterTransition();
                 try{
                     String trailerID = JsonObject.getJSONArray("results").getJSONObject(0).getString("key");
-                    initializeVideo(trailerID);
+                    initializeVideo(trailerID, movie.getRating());
                 }
 
                 catch (JSONException e){
@@ -86,7 +88,7 @@ public class DetailActivity extends YouTubeBaseActivity {
 
     }
 
-    private void initializeVideo(final String trailerID) {
+    private void initializeVideo(final String trailerID, final double rating) {
         youTubePlayerView.initialize("AIzaSyBiWLjrACsOymyhUVZELKHmb1enNGED4dg",
                 new YouTubePlayer.OnInitializedListener() {
                     @Override
@@ -94,7 +96,14 @@ public class DetailActivity extends YouTubeBaseActivity {
                                                         YouTubePlayer youTubePlayer, boolean b) {
 
                         // do any work here to cue video, play video, etc.
-                        youTubePlayer.cueVideo(trailerID);
+                        if (rating < 5){
+                            youTubePlayer.cueVideo(trailerID);
+                        }
+
+                        else{
+                            youTubePlayer.loadVideo(trailerID);
+                        }
+
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,

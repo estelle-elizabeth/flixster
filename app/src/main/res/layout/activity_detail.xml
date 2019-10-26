@@ -11,7 +11,8 @@
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player"
         android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_height="250dp"
+        android:transitionName="overview"/>
 
     <TextView
         android:id="@+id/movieTitle"
@@ -58,7 +59,6 @@
         android:id="@+id/movieOverView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:transitionName="overview"
         android:layout_margin="8dp"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
